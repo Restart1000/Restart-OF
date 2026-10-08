@@ -32,6 +32,7 @@ flat in float vOwnerID;
 flat in float vFlags;
 flat in float vHash;
 flat in float vGlow;
+flat in float vIsHalloween;
 
 out vec4 fragColor;
 
@@ -122,6 +123,12 @@ void main() {
       }
     }
     discard;
+  }
+
+  // Halloween icons render directly with full-color pixel art, bypassing palette lookups and shading math
+  if (vIsHalloween > 0.5) {
+    fragColor = vec4(texel.rgb, texel.a * alphaMul);
+    return;
   }
 
   float gray = texel.r;
